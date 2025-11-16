@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Messages - CampusEats</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .messages-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 1.5rem;
+            height: 70vh;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .conversations-list {
+            border-right: 1px solid rgba(255, 215, 0, 0.2);
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .conversation-item:hover {
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .conversation-item.unread {
+            background: rgba(255, 215, 0, 0.05);
+            border-left: 3px solid #FFD700;
+        }
+
+        .conversation-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FFD700, #B8860B);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: #000;
+            font-size: 1.2rem;
+        }
+
+        .conversation-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .conversation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .conversation-header h4 {
+            margin: 0;
+            color: #FFD700;
+            font-size: 1rem;
+        }
+
+        .conversation-time {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .conversation-preview {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .unread-badge {
+            background: #FFD700;
+            color: #000;
+            border-radius: 10px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.7rem;
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .messages-view {
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.2);
+            height: 100%;
+        }
+
+        .conversation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .conversation-partner {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .partner-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFD700, #B8860B);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+        }
+
+        .partner-info h4 {
+            margin: 0;
+            color: #FFD700;
+        }
+
+        .partner-info span {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .messages-list {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 400px;
+        }
+
+        .no-conversation-selected,
+        .no-messages {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .message {
+            display: flex;
+            max-width: 70%;
+        }
+
+        .message.sent {
+            align-self: flex-end;
+        }
+
+        .message.received {
+            align-self: flex-start;
+        }
+
+        .message-content {
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            position: relative;
+        }
+
+        .message.sent .message-content {
+            background: linear-gradient(135deg, #FFD700, #B8860B);
+            color: #000;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.received .message-content {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            display: block;
+            margin-top: 0.25rem;
+        }
+
+        .message-input-container {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .message-input {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .message-input input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 25px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .message-input input:focus {
+            outline: none;
+            border-color: #FFD700;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .message-input button {
+            padding: 0.75rem;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-conversations {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Conversation Actions */
+        .conversation-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Phone Call Button Styles */
+        .call-btn {
+            background: rgba(39, 174, 96, 0.2) !important;
+            border: 1px solid rgba(39, 174, 96, 0.5) !important;
+            color: #27ae60 !important;
+            transition: all 0.3s ease;
+        }
+
+        .call-btn:hover {
+            background: rgba(39, 174, 96, 0.3) !important;
+            transform: scale(1.05);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #FFD700, #B8860B) !important;
+            color: #000 !important;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Subtle notifications */
+        .notification-subtle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 215, 0, 0.9);
+            color: #000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 10000;
+            animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .messages-container {
+                grid-template-columns: 1fr;
+                height: 500px;
+            }
+            
+            .conversations-list {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+                max-height: 200px;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+
+            .conversation-actions {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-container">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-utensils"></i> Campus<span>Eats</span>
+                </a>
+                <nav>
+                    <ul id="navMenu">
+                        <li><a href="student.html" class="nav-link">Dashboard</a></li>
+                        <li><a href="student-orders.html" class="nav-link">My Orders</a></li>
+                        <li><a href="student-messages.html" class="nav-link active">Messages</a></li>
+                        <li><a href="student-cart.html" class="nav-link">Cart</a></li>
+                        <li id="authSection">
+                            <!-- Populated by JavaScript -->
+                        </li>
+                    </ul>
+                </nav>
+                <button class="mobile-menu" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Messages Section -->
+    <section class="section">
+        <div class="container">
+            <h1 class="section-title">My Messages</h1>
+            <!-- Add this inside the header section after the logo -->
+<div style="display: flex; align-items: center; gap: 1rem;">
+    <a href="student.html" class="btn btn-outline btn-sm" style="display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+</div>
+            
+            <div class="messages-container">
+                <div class="conversations-list" id="conversationsList">
+                    <!-- Conversations will be loaded here -->
+                </div>
+                
+                <div class="messages-view" id="messagesView">
+                    <div class="no-conversation-selected">
+                        <i class="fas fa-comments" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3 style="color: #FFD700; margin-bottom: 0.5rem;">Select a Conversation</h3>
+                        <p>Choose a conversation from the list to start messaging</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/app.js"></script>
+    <script src="js/student-messages.js"></script>
+</body>
+</html>

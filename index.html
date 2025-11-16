@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusEats - Campus Food Delivery</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-container">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-utensils"></i> Campus<span>Eats</span>
+                </a>
+                <nav>
+                    <ul id="navMenu">
+                        <li><a href="#home" class="nav-link active">Home</a></li>
+                        <li><a href="#campus-market" class="nav-link">Campus Market</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li id="authSection">
+                            <!-- This will be populated by JavaScript -->
+                        </li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Welcome to <span class="highlight">CampusEats</span></h1>
+            <p>Your campus food delivery solution. Discover amazing food from campus vendors and enjoy quick delivery to your doorstep.</p>
+            
+            <!-- Coming Soon Badge -->
+            <div class="coming-soon-badge">
+                <span class="badge-text">🚀 Coming Soon</span>
+                <span class="badge-subtext">Kano City Restaurants to Campus Delivery!</span>
+            </div>
+            
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="showStudentSignup()">
+                    <i class="fas fa-user-graduate"></i> Student Sign Up
+                </button>
+                <a href="vendors/vendor-dashboard.html" class="btn btn-outline">
+                    <i class="fas fa-store"></i> Become a Vendor
+                </a>
+                <button class="btn btn-coming-soon" onclick="showComingSoonAlert()">
+                    <i class="fas fa-city"></i> Kano Restaurants
+                </button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Delicious Food">
+        </div>
+    </div>
+</section>
+
+    <!-- Features Section -->
+    <section class="features section">
+        <div class="container">
+            <h2 class="section-title">Why Choose CampusEats?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Fast Delivery</h3>
+                    <p>Get your favorite meals delivered within 30 minutes across campus</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Campus Vendors</h3>
+                    <p>Support local campus businesses and student entrepreneurs</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Free Delivery</h3>
+                    <p>All orders delivered free within campus boundaries</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>Affordable Prices</h3>
+                    <p>Student-friendly prices that fit your budget</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campus Market Section -->
+    <section id="campus-market" class="section market-section">
+        <div class="container">
+            <h2 class="section-title">Campus Market</h2>
+            <p class="section-subtitle">Discover amazing products from campus vendors</p>
+            
+            <!-- Category Filters -->
+            <div class="category-filters">
+                <button class="filter-btn active" data-category="all">All Products</button>
+                <button class="filter-btn" data-category="food">🍕 Food</button>
+                <button class="filter-btn" data-category="drinks">🥤 Drinks</button>
+                <button class="filter-btn" data-category="snacks">🍿 Snacks</button>
+                <button class="filter-btn" data-category="desserts">🍰 Desserts</button>
+                <button class="filter-btn" data-category="gadgets">📱 Gadgets</button>
+                <button class="filter-btn" data-category="stationery">✏️ Stationery</button>
+            </div>
+            
+            <!-- Products Grid -->
+            <div class="products-header">
+                <h3>Available Products</h3>
+                <div class="sort-options">
+                    <select id="sortProducts" onchange="sortProducts()">
+                        <option value="newest">Newest First</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name">Name: A to Z</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="products-grid" id="campusMarketProducts">
+                <!-- Products will be loaded here -->
+            </div>
+
+            <!-- Vendors Section -->
+            <div class="vendors-section">
+                <h3>Featured Vendors</h3>
+                <div class="vendors-grid" id="campusMarketVendors">
+                    <!-- Vendors will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About CampusEats</h2>
+                    <p class="about-description">CampusEats is a revolutionary campus marketplace designed to connect students with local vendors. Our platform empowers student entrepreneurs while providing convenient access to food, drinks, and essential items.</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat">
+                            <h3>500+</h3>
+                            <p>Happy Students</p>
+                        </div>
+                        <div class="stat">
+                            <h3>50+</h3>
+                            <p>Campus Vendors</p>
+                        </div>
+                        <div class="stat">
+                            <h3>1000+</h3>
+                            <p>Orders Delivered</p>
+                        </div>
+                    </div>
+
+                    <div class="about-features">
+                        <div class="feature">
+                            <i class="fas fa-rocket"></i>
+                            <div>
+                                <h4>Fast & Reliable</h4>
+                                <p>Quick delivery across campus with real-time tracking</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <div>
+                                <h4>Support Local</h4>
+                                <p>Help fellow students grow their businesses</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h4>Secure Payments</h4>
+                                <p>Safe and secure payment processing</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-frame">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Students enjoying food">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-utensils"></i>
+                                <h4>Campus Life Made Easy</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kano Coming Soon Section -->
+<section class="coming-soon-section section">
+    <div class="container">
+        <div class="coming-soon-content">
+            <div class="coming-soon-image">
+                <img src="https://images.unsplash.com/photo-1556909114-4d0d853e5e25?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Kano City">
+                <div class="city-overlay">
+                    <span>Kano</span>
+                </div>
+            </div>
+            <div class="coming-soon-text">
+                <div class="section-tag">Coming Soon</div>
+                <h2>Kano City Restaurants Delivery</h2>
+                <p class="coming-soon-description">
+                    We're expanding beyond campus! Soon you'll be able to order from your favorite Kano City restaurants and have them delivered directly to campus. 
+                    Enjoy a wider variety of cuisines while supporting local businesses.
+                </p>
+                
+                <div class="coming-soon-features">
+                    <div class="feature-item">
+                        <i class="fas fa-utensils"></i>
+                        <div>
+                            <h4>City-Wide Selection</h4>
+                            <p>Access restaurants across Kano City</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-motorcycle"></i>
+                        <div>
+                            <h4>Extended Delivery</h4>
+                            <p>From city center to campus gates</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-star"></i>
+                        <div>
+                            <h4>Popular Restaurants</h4>
+                            <p>Your favorite city spots coming soon</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="notify-section">
+                    <p>Get notified when we launch in Kano City:</p>
+                    <div class="notify-input">
+                        <input type="email" placeholder="Enter your email" id="kanoNotifyEmail">
+                        <button class="btn btn-primary" onclick="subscribeKanoUpdates()">
+                            <i class="fas fa-bell"></i> Notify Me
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3><i class="fas fa-utensils"></i> CampusEats</h3>
+                    <p>Your campus marketplace for food, drinks, and essentials. Supporting student entrepreneurs.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#campus-market">Campus Market</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="vendors/vendor-dashboard.html">Become a Vendor</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> +234 812 345 6789</li>
+                        <li><i class="fas fa-envelope"></i> support@campuseats.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> University Campus</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Portal Access</h4>
+                    <ul class="footer-links">
+                        <li><a href="students/student.html">Student Portal</a></li>
+                        <li><a href="vendors/vendor-dashboard.html">Vendor Portal</a></li>
+                        <li><a href="admin/admin.html">Admin Portal</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 CampusEats. All rights reserved. | Empowering Campus Entrepreneurs</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Combined Login Modal -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-sign-in-alt"></i> Login to CampusEats</h3>
+                <button class="close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="login-options">
+                    <button class="login-option-btn active" data-type="student" onclick="switchLoginType('student')">
+                        <div class="option-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="option-content">
+                            <h4>Student Login</h4>
+                            <p>Order food & products</p>
+                        </div>
+                    </button>
+                    
+                    <button class="login-option-btn" data-type="vendor" onclick="switchLoginType('vendor')">
+                        <div class="option-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="option-content">
+                            <h4>Vendor Login</h4>
+                            <p>Sell on campus</p>
+                        </div>
+                    </button>
+                    
+                    <button class="login-option-btn" data-type="admin" onclick="switchLoginType('admin')">
+                        <div class="option-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="option-content">
+                            <h4>Admin Login</h4>
+                            <p>Manage platform</p>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Student Login Form -->
+                <form id="studentLoginForm" class="login-form active">
+                    <div class="form-group">
+                        <label>Student Email</label>
+                        <input type="email" id="studentEmail" required placeholder="your.email@student.edu">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="studentPassword" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> Student Login
+                    </button>
+                </form>
+
+                <!-- Vendor Login Form -->
+                <form id="vendorLoginForm" class="login-form">
+                    <div class="form-group">
+                        <label>Vendor Email</label>
+                        <input type="email" id="vendorEmail" required placeholder="your.email@vendor.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="vendorPassword" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-store"></i> Vendor Login
+                    </button>
+                </form>
+
+                <!-- Admin Login Form -->
+                <form id="adminLoginForm" class="login-form">
+                    <div class="form-group">
+                        <label>Admin Email</label>
+                        <input type="email" id="adminEmail" required placeholder="admin@campuseats.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="adminPassword" required placeholder="Enter admin password">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-shield-alt"></i> Admin Login
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" onclick="closeModal('loginModal'); showStudentSignup();">Sign up as Student</a> or <a href="vendor-dashboard.html">Become a Vendor</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Signup Modal -->
+    <div id="studentSignupModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> Student Sign Up</h3>
+                <button class="close" onclick="closeModal('studentSignupModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="studentSignupForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="studentName" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="studentSignupEmail" required placeholder="your.email@student.edu">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="studentSignupPassword" required placeholder="Create a secure password">
+                    </div>
+                    <div class="form-group">
+                        <label>Student ID (Optional)</label>
+                        <input type="text" id="studentId" placeholder="Enter your student ID">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-user-plus"></i> Create Student Account
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="#" onclick="closeModal('studentSignupModal'); showLoginOptions();">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

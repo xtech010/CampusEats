@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - CampusEats</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-section {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(184,134,11,0.05));
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-container">
+                <a href="../index.html" class="logo">
+                    <i class="fas fa-utensils"></i> Campus<span>Eats</span>
+                </a>
+                
+                <!-- Enhanced Navigation -->
+                <nav>
+                    <ul style="display: flex; align-items: center; gap: 0.5rem;">
+                        <li>
+                            <a href="student.html" class="nav-link active" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: rgba(255,215,0,0.15); border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="student-orders.html" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;">
+                                <i class="fas fa-shopping-bag"></i>
+                                My Orders
+                                <span class="order-badge" id="navOrdersCount" style="background: #FFD700; color: #000; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.7rem; font-weight: bold; min-width: 20px; text-align: center;">0</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="student-messages.html" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;">
+                                <i class="fas fa-comments"></i>
+                                Messages
+                                <span class="message-badge" id="navMessagesCount" style="background: #27ae60; color: white; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.7rem; font-weight: bold; min-width: 20px; text-align: center;">0</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="student-cart.html" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;">
+                                <i class="fas fa-shopping-cart"></i>
+                                Cart
+                                <span id="navCartCount" style="background: #e74c3c; color: white; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.7rem; font-weight: bold; min-width: 20px; text-align: center;">0</span>
+                            </a>
+                        </li>
+                        
+                        <!-- Notification Bell -->
+                        <li class="notification-bell" onclick="viewNotifications()">
+                            <i class="fas fa-bell" style="font-size: 1.2rem; color: #FFD700;"></i>
+                            <span class="notification-badge" id="notificationCount">0</span>
+                        </li>
+                        
+                        <!-- User Menu -->
+                        <li style="position: relative; margin-left: 1rem;">
+                            <a href="#" id="userMenuBtn" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; background: rgba(255,215,0,0.1); border-radius: 10px; border: 1px solid rgba(255,215,0,0.3); transition: all 0.3s ease;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #FFD700, #B8860B); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-user" style="color: #000; font-size: 1rem;"></i>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: flex-start; text-decoration: none;">
+                                    <span style="font-weight: 600; color: #FFD700; font-size: 0.9rem; text-decoration: none;" id="userName">Student</span>
+                                    <small style="color: rgba(255,255,255,0.7); font-size: 0.7rem; text-decoration: none;">Student Account</small>
+                                </div>
+                                <i class="fas fa-chevron-down" style="color: #FFD700; font-size: 0.8rem; transition: transform 0.3s ease;"></i>
+                            </a>
+                            
+                            <!-- User Dropdown Menu -->
+                            <div class="user-dropdown hidden" id="userMenu" style="position: absolute; top: 100%; right: 0; background: rgba(0,0,0,0.95); border: 1px solid rgba(255,215,0,0.3); border-radius: 12px; padding: 1rem 0; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1000; backdrop-filter: blur(10px);">
+                                <div class="user-info" style="padding: 0 1.5rem 1rem; border-bottom: 1px solid rgba(255,215,0,0.2); margin-bottom: 0.5rem;">
+                                    <span style="display: block; color: #FFD700; font-weight: 600; font-size: 0.9rem;" id="userGreeting">Welcome!</span>
+                                    <small style="color: rgba(255,255,255,0.7); font-size: 0.8rem;">Student Portal</small>
+                                </div>
+                                <button onclick="viewProfile()" style="display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.75rem 1.5rem; background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">
+                                    <i class="fas fa-user-edit" style="width: 16px; text-align: center;"></i>
+                                    Profile Settings
+                                </button>
+                                <button onclick="viewReviews()" style="display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.75rem 1.5rem; background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">
+                                    <i class="fas fa-star" style="width: 16px; text-align: center;"></i>
+                                    My Reviews
+                                </button>
+                                <div style="height: 1px; background: rgba(255,215,0,0.2); margin: 0.25rem 0;"></div>
+                                <button onclick="studentLogout()" style="display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.75rem 1.5rem; background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">
+                                    <i class="fas fa-sign-out-alt" style="width: 16px; text-align: center;"></i>
+                                    Logout
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="mobile-menu" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Student Dashboard Content -->
+    <section class="section">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1 class="section-title">Student Dashboard</h1>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <span id="currentTime" style="color: #FFD700; font-weight: 600;"></span>
+                </div>
+            </div>
+
+            <div class="welcome-section">
+                <h2 id="userGreetingMain" style="color: #FFD700; margin-bottom: 0.5rem;">Welcome back!</h2>
+                <p style="color: rgba(255,255,255,0.8); margin: 0;">Ready to explore delicious campus options?</p>
+            </div>
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="studentTotalOrders">0</h3>
+                        <p>Total Orders</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="studentPendingOrders">0</h3>
+                        <p>Pending Orders</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="studentTotalSpent">₦0</h3>
+                        <p>Total Spent</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="studentCompletedOrders">0</h3>
+                        <p>Completed Orders</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h3 style="color: #FFD700; margin-bottom: 1.5rem;">Quick Actions</h3>
+                <div class="action-buttons">
+                    <a href="../index.html#campus-market" class="btn">
+                        <i class="fas fa-store"></i>
+                        Browse Campus Market
+                    </a>
+                    <a href="student-orders.html" class="btn btn-outline">
+                        <i class="fas fa-history"></i>
+                        View All Orders
+                    </a>
+                    <a href="student-cart.html" class="btn btn-outline">
+                        <i class="fas fa-shopping-cart"></i>
+                        View Cart
+                    </a>
+                    <a href="student-reviews.html" class="btn btn-outline">
+                        <i class="fas fa-star"></i>
+                        Write Reviews
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Orders Section -->
+            <div class="modern-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3 style="color: #FFD700; margin: 0;">Recent Orders</h3>
+                    <a href="student-orders.html" class="btn btn-outline btn-sm">
+                        View All Orders
+                    </a>
+                </div>
+                <div id="recentOrders" class="orders-list">
+                    <!-- Recent orders will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Notifications Section -->
+            <div class="modern-card">
+                <h3 style="color: #FFD700; margin-bottom: 1.5rem;">Recent Notifications</h3>
+                <div id="recentNotifications">
+                    <!-- Notifications will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/app.js"></script>
+    <script src="js/student-app.js"></script>
+</body>
+</html>
