@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reviews - CampusEats</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Enhanced Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-container">
+                <a href="../index.html" class="logo">
+                    <i class="fas fa-utensils"></i> Campus<span>Eats</span>
+                </a>
+                
+                <nav>
+                    <ul style="display: flex; align-items: center; gap: 0.5rem;">
+                        <li>
+                            <a href="student.html" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="student-orders.html" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;">
+                                <i class="fas fa-shopping-bag"></i>
+                                My Orders
+                            </a>
+                        </li>
+                        <li>
+                            <a href="student-reviews.html" class="nav-link active" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: rgba(255,215,0,0.15); border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                                <i class="fas fa-star"></i>
+                                My Reviews
+                            </a>
+                        </li>
+                        
+                        <!-- User Menu -->
+                        <li style="position: relative; margin-left: 1rem;">
+                            <button id="userMenuBtn" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; background: rgba(255,215,0,0.1); border-radius: 10px; border: 1px solid rgba(255,215,0,0.3); transition: all 0.3s ease; cursor: pointer; border: none; color: white;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #FFD700, #B8860B); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-user" style="color: #000; font-size: 1rem;"></i>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                                    <span style="font-weight: 600; color: #FFD700; font-size: 0.9rem;" id="userName">Student</span>
+                                    <small style="color: rgba(255,255,255,0.7); font-size: 0.7rem;">Student Account</small>
+                                </div>
+                                <i class="fas fa-chevron-down" style="color: #FFD700; font-size: 0.8rem; transition: transform 0.3s ease;"></i>
+                            </button>
+                            
+                            <!-- User Dropdown Menu -->
+                            <div class="user-dropdown hidden" id="userMenu" style="position: absolute; top: 100%; right: 0; background: rgba(0,0,0,0.95); border: 1px solid rgba(255,215,0,0.3); border-radius: 12px; padding: 1rem 0; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1000; backdrop-filter: blur(10px);">
+                                <button onclick="location.href='student.html'" style="display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.75rem 1.5rem; background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">
+                                    <i class="fas fa-tachometer-alt" style="width: 16px; text-align: center;"></i>
+                                    Dashboard
+                                </button>
+                                <button onclick="location.href='student-profile.html'" style="display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.75rem 1.5rem; background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">
+                                    <i class="fas fa-user-cog" style="width: 16px; text-align: center;"></i>
+                                    Profile Settings
+                                </button>
+                                <div style="height: 1px; background: rgba(255,215,0,0.2); margin: 0.25rem 0;"></div>
+                                <button onclick="studentLogout()" style="display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.75rem 1.5rem; background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">
+                                    <i class="fas fa-sign-out-alt" style="width: 16px; text-align: center;"></i>
+                                    Logout
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="mobile-menu" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Reviews Content -->
+    <section class="section">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1 class="section-title">My Reviews</h1>
+                <p>Manage your product reviews and ratings</p>
+            </div>
+
+            <div class="reviews-container">
+                <!-- Pending Reviews -->
+                <div class="modern-card">
+                    <h3>Orders Pending Review</h3>
+                    <div id="pendingReviews">
+                        <!-- Pending reviews will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- My Reviews -->
+                <div class="modern-card">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3>My Reviews</h3>
+                        <input type="text" class="search-bar" placeholder="Search reviews..." id="reviewSearch" style="width: 250px;">
+                    </div>
+                    <div id="myReviews">
+                        <!-- User reviews will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Review Modal -->
+    <div id="reviewModal" class="modal hidden">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Write Review</h3>
+                <button class="close" onclick="closeModal('reviewModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="reviewContent">
+                    <!-- Review form will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Review Modal -->
+    <div id="editReviewModal" class="modal hidden">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Edit Review</h3>
+                <button class="close" onclick="closeModal('editReviewModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="editReviewContent">
+                    <!-- Edit review form will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="js/student-reviews.js"></script>
+</body>
+</html>

@@ -7,11 +7,6 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --sidebar-width: 280px;
-            --header-height: 70px;
-        }
-
         .vendor-dashboard {
             background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
             min-height: 100vh;
@@ -22,16 +17,22 @@
             background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-            height: var(--header-height);
+            padding: 1rem 0;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
+        }
+
+        .vendor-nav {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 2rem;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
         }
 
         .vendor-brand {
@@ -43,7 +44,7 @@
         .vendor-brand h1 {
             color: #FFD700;
             margin: 0;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
         }
 
@@ -53,32 +54,33 @@
             gap: 1.5rem;
         }
 
-        .vendor-welcome {
-            color: #FFD700;
-            font-weight: 600;
+        .vendor-container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 80px;
         }
 
         .vendor-sidebar {
-            position: fixed;
-            left: 0;
-            top: var(--header-height);
-            width: var(--sidebar-width);
-            height: calc(100vh - var(--header-height));
+            width: 280px;
             background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
             border-right: 1px solid rgba(255, 215, 0, 0.2);
             padding: 2rem 0;
-            overflow-y: auto;
         }
 
-        .vendor-nav {
+        .vendor-main {
+            flex: 1;
+            padding: 2rem;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+        }
+
+        .sidebar-nav {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
             padding: 0 1.5rem;
         }
 
-        .nav-item {
+        .nav-btn {
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -92,42 +94,23 @@
             transition: all 0.3s ease;
             font-size: 0.95rem;
             font-weight: 500;
-            position: relative;
-            overflow: hidden;
         }
 
-        .nav-item::before {
-            content: '';
-            position: absolute;
-            left: -100%;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .nav-item:hover::before {
-            left: 100%;
-        }
-
-        .nav-item:hover {
+        .nav-btn:hover {
             background: rgba(255, 215, 0, 0.1);
             color: #FFD700;
             transform: translateX(5px);
         }
 
-        .nav-item.active {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(184, 134, 11, 0.1));
+        .nav-btn.active {
+            background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(184,134,11,0.1));
             color: #FFD700;
             border-left: 4px solid #FFD700;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.1);
         }
 
-        .nav-item i {
+        .nav-btn i {
             width: 20px;
             text-align: center;
-            font-size: 1.1rem;
         }
 
         .nav-badge {
@@ -140,25 +123,77 @@
             margin-left: auto;
         }
 
-        .vendor-main {
-            margin-left: var(--sidebar-width);
-            margin-top: var(--header-height);
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
             padding: 2rem;
-            min-height: calc(100vh - var(--header-height));
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #FFD700, #B8860B);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #000;
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            color: #FFD700;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .stat-info p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
         }
 
         @media (max-width: 768px) {
+            .vendor-container {
+                flex-direction: column;
+            }
+
             .vendor-sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 215, 0, 0.2);
             }
 
-            .vendor-sidebar.mobile-open {
-                transform: translateX(0);
+            .sidebar-nav {
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 1rem;
             }
 
-            .vendor-main {
-                margin-left: 0;
+            .nav-btn {
+                white-space: nowrap;
+                min-width: 150px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -172,11 +207,11 @@
                 <p>Manage your campus business</p>
             </div>
             <form id="vendorLoginForm">
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label>Email Address</label>
                     <input type="email" id="vendorEmail" required placeholder="your.email@vendor.com">
                 </div>
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label>Password</label>
                     <div class="password-container">
                         <input type="password" id="vendorPassword" required placeholder="Enter your password">
@@ -208,19 +243,19 @@
                 <p>Start selling on campus today</p>
             </div>
             <form id="vendorSignupForm">
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label>Business Name</label>
                     <input type="text" id="businessName" required placeholder="Your business name">
                 </div>
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label>Your Name</label>
                     <input type="text" id="vendorName" required placeholder="Your full name">
                 </div>
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label>Email Address</label>
                     <input type="email" id="signupEmail" required placeholder="your.email@vendor.com">
                 </div>
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label>Password</label>
                     <div class="password-container">
                         <input type="password" id="signupPassword" required placeholder="Create secure password">
@@ -229,11 +264,23 @@
                         </button>
                     </div>
                 </div>
-                <div class="form-group-modern">
+                <div class="form-group">
                     <label>Phone Number</label>
                     <input type="tel" id="vendorPhone" required placeholder="+234 812 345 6789">
                 </div>
-                <div class="form-group-modern">
+                <div class="form-group">
+                    <label>Categories</label>
+                    <select id="vendorCategories" multiple>
+                        <option value="food">Food</option>
+                        <option value="drinks">Drinks</option>
+                        <option value="snacks">Snacks</option>
+                        <option value="desserts">Desserts</option>
+                        <option value="gadgets">Gadgets</option>
+                        <option value="stationery">Stationery</option>
+                    </select>
+                    <small>Hold Ctrl/Cmd to select multiple categories</small>
+                </div>
+                <div class="form-group">
                     <label>
                         <input type="checkbox" id="agreeTerms" required>
                         I agree to the <a href="../shared/terms-vendor.html" target="_blank" style="color: #FFD700;">Vendor Terms & Conditions</a>
@@ -253,98 +300,98 @@
 
     <!-- Vendor Dashboard -->
     <div id="vendorDashboard" class="hidden">
-        <!-- Modern Header -->
+        <!-- Header -->
         <header class="vendor-header">
-            <div class="vendor-brand">
-                <a href="../index.html" style="text-decoration: none;">
-                    <h1><i class="fas fa-store"></i> CampusEats Vendor</h1>
-                </a>
-            </div>
-            <div class="vendor-actions">
-                <span class="vendor-welcome" id="vendorWelcome">Welcome back!</span>
-                <a href="../index.html" class="btn btn-outline btn-sm">
-                    <i class="fas fa-home"></i> Student Site
-                </a>
-                <button id="vendorLogout" class="btn btn-outline">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
+            <div class="vendor-nav">
+                <div class="vendor-brand">
+                    <a href="../index.html" class="back-button">
+                        <i class="fas fa-store"></i>
+                        <span>CampusEats Vendor</span>
+                    </a>
+                </div>
+                <div class="vendor-actions">
+                    <span id="vendorWelcome" class="vendor-welcome">Welcome back!</span>
+                    <div class="notification-bell" onclick="viewVendorNotifications()">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="vendorNotificationCount">0</span>
+                    </div>
+                    <button id="vendorLogout" class="btn btn-outline">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
             </div>
         </header>
 
-        <!-- Modern Sidebar -->
-        <aside class="vendor-sidebar">
-            <nav class="vendor-nav">
-                <button class="nav-item active" data-tab="vendor-dashboard">
-                    <i class="fas fa-tachometer-alt"></i> Dashboard
-                </button>
-                <button class="nav-item" data-tab="vendor-products">
-                    <i class="fas fa-box"></i> My Products
-                    <span class="nav-badge" id="productsCount">0</span>
-                </button>
-                <button class="nav-item" data-tab="add-product">
-                    <i class="fas fa-plus-circle"></i> Add Product
-                </button>
-                <button class="nav-item" data-tab="vendor-orders">
-                    <i class="fas fa-shopping-cart"></i> Orders
-                    <span class="nav-badge" id="ordersCount">0</span>
-                </button>
-                <button class="nav-item" data-tab="vendor-messages">
-                    <i class="fas fa-comments"></i> Messages
-                    <span class="nav-badge" id="messagesCount">0</span>
-                </button>
-                <button class="nav-item" data-tab="vendor-transactions">
-                    <i class="fas fa-money-bill-wave"></i> Transactions
-                </button>
-                <button class="nav-item" data-tab="vendor-profile">
-                    <i class="fas fa-user-cog"></i> Profile & Settings
-                </button>
-            </nav>
-        </aside>
+        <div class="vendor-container">
+            <!-- Sidebar -->
+            <aside class="vendor-sidebar">
+                <nav class="sidebar-nav">
+                    <button class="nav-btn active" onclick="location.href='vendor-dashboard.html'">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </button>
+                    <button class="nav-btn" onclick="location.href='vendor-products.html'">
+                        <i class="fas fa-box"></i> My Products
+                        <span class="nav-badge" id="productsCount">0</span>
+                    </button>
+                    <button class="nav-btn" onclick="location.href='vendor-orders.html'">
+                        <i class="fas fa-shopping-cart"></i> Orders
+                        <span class="nav-badge" id="ordersCount">0</span>
+                    </button>
+                    <button class="nav-btn" onclick="location.href='vendor-messages.html'">
+                        <i class="fas fa-comments"></i> Messages
+                        <span class="nav-badge" id="messagesCount">0</span>
+                    </button>
+                    <button class="nav-btn" onclick="location.href='vendor-transactions.html'">
+                        <i class="fas fa-money-bill-wave"></i> Transactions
+                    </button>
+                    <button class="nav-btn" onclick="location.href='vendor-profile.html'">
+                        <i class="fas fa-user-cog"></i> Profile & Settings
+                    </button>
+                </nav>
+            </aside>
 
-        <!-- Main Content -->
-        <main class="vendor-main">
-            <!-- Dashboard Tab -->
-            <div id="vendor-dashboard" class="tab-content active">
+            <!-- Main Content -->
+            <main class="vendor-main">
                 <div class="modern-card">
                     <h2 style="margin: 0 0 1rem 0; color: #FFD700;">Business Overview</h2>
                     <p style="color: rgba(255,255,255,0.7); margin: 0;">Track your performance and manage your campus business</p>
                 </div>
 
-                <div class="stats-grid-modern">
-                    <div class="stat-card-modern">
-                        <div class="stat-icon-modern">
+                <div class="stats-grid">
+                    <div class="stat-card" onclick="location.href='vendor-products.html'">
+                        <div class="stat-icon">
                             <i class="fas fa-box"></i>
                         </div>
-                        <div class="stat-info-modern">
+                        <div class="stat-info">
                             <h3 id="vendorTotalProducts">0</h3>
                             <p>Active Products</p>
                         </div>
                     </div>
-                    <div class="stat-card-modern">
-                        <div class="stat-icon-modern">
+                    <div class="stat-card" onclick="location.href='vendor-orders.html'">
+                        <div class="stat-icon">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
-                        <div class="stat-info-modern">
+                        <div class="stat-info">
                             <h3 id="vendorTotalOrders">0</h3>
                             <p>Total Orders</p>
                         </div>
                     </div>
-                    <div class="stat-card-modern">
-                        <div class="stat-icon-modern">
+                    <div class="stat-card" onclick="location.href='vendor-transactions.html'">
+                        <div class="stat-icon">
                             <i class="fas fa-money-bill-wave"></i>
                         </div>
-                        <div class="stat-info-modern">
+                        <div class="stat-info">
                             <h3 id="vendorTotalRevenue">₦0</h3>
                             <p>Total Revenue</p>
                         </div>
                     </div>
-                    <div class="stat-card-modern">
-                        <div class="stat-icon-modern">
-                            <i class="fas fa-star"></i>
+                    <div class="stat-card" onclick="location.href='vendor-messages.html'">
+                        <div class="stat-icon">
+                            <i class="fas fa-comments"></i>
                         </div>
-                        <div class="stat-info-modern">
-                            <h3 id="vendorRating">4.8</h3>
-                            <p>Customer Rating</p>
+                        <div class="stat-info">
+                            <h3 id="vendorUnreadMessages">0</h3>
+                            <p>Unread Messages</p>
                         </div>
                     </div>
                 </div>
@@ -352,13 +399,13 @@
                 <div class="modern-card">
                     <h3 style="margin: 0 0 1rem 0; color: #FFD700;">Quick Actions</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                        <button class="btn" onclick="switchTab('add-product')">
+                        <button class="btn" onclick="location.href='vendor-products.html?action=add'">
                             <i class="fas fa-plus"></i> Add New Product
                         </button>
-                        <button class="btn btn-outline" onclick="switchTab('vendor-orders')">
+                        <button class="btn btn-outline" onclick="location.href='vendor-orders.html'">
                             <i class="fas fa-eye"></i> View Orders
                         </button>
-                        <button class="btn btn-outline" onclick="switchTab('vendor-messages')">
+                        <button class="btn btn-outline" onclick="location.href='vendor-messages.html'">
                             <i class="fas fa-comments"></i> Check Messages
                         </button>
                     </div>
@@ -368,7 +415,7 @@
                 <div class="modern-card">
                     <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1.5rem;">
                         <h3 style="margin: 0; color: #FFD700;">Recent Orders</h3>
-                        <button class="btn btn-outline btn-sm" onclick="switchTab('vendor-orders')">
+                        <button class="btn btn-outline btn-sm" onclick="location.href='vendor-orders.html'">
                             View All Orders
                         </button>
                     </div>
@@ -376,33 +423,16 @@
                         <!-- Recent orders will be loaded here -->
                     </div>
                 </div>
-            </div>
 
-            <!-- Other tabs will be implemented in separate files -->
-            <div id="vendor-products" class="tab-content">
-                <!-- Products management -->
-            </div>
-
-            <div id="add-product" class="tab-content">
-                <!-- Add product form -->
-            </div>
-
-            <div id="vendor-orders" class="tab-content">
-                <!-- Orders management -->
-            </div>
-
-            <div id="vendor-messages" class="tab-content">
-                <!-- Messages interface -->
-            </div>
-
-            <div id="vendor-transactions" class="tab-content">
-                <!-- Transactions tracking -->
-            </div>
-
-            <div id="vendor-profile" class="tab-content">
-                <!-- Profile settings -->
-            </div>
-        </main>
+                <!-- Notifications Preview -->
+                <div class="modern-card">
+                    <h3 style="margin: 0 0 1rem 0; color: #FFD700;">Recent Notifications</h3>
+                    <div id="recentVendorNotifications">
+                        <!-- Notifications will be loaded here -->
+                    </div>
+                </div>
+            </main>
+        </div>
     </div>
 
     <script src="../js/app.js"></script>

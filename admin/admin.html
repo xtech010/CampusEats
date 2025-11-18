@@ -4,233 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - CampusEats</title>
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/admin-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .admin-header {
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-            padding: 1rem 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
-
-        .admin-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        .admin-brand {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .admin-brand h1 {
-            color: #FFD700;
-            margin: 0;
-            font-size: 1.6rem;
-            font-weight: 700;
-        }
-
-        .admin-actions {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .admin-container {
-            display: flex;
-            min-height: 100vh;
-            padding-top: 80px;
-        }
-
-        .admin-sidebar {
-            width: 280px;
-            background: rgba(0, 0, 0, 0.9);
-            border-right: 1px solid rgba(255, 215, 0, 0.2);
-            padding: 2rem 0;
-        }
-
-        .sidebar-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            padding: 0 1.5rem;
-        }
-
-        .nav-btn {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.5rem;
-            background: transparent;
-            border: none;
-            color: rgba(255, 255, 255, 0.8);
-            text-align: left;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255, 215, 0, 0.1);
-            color: #FFD700;
-            transform: translateX(5px);
-        }
-
-        .nav-btn.active {
-            background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(184,134,11,0.1));
-            color: #FFD700;
-            border-left: 4px solid #FFD700;
-        }
-
-        .nav-btn i {
-            width: 20px;
-            text-align: center;
-        }
-
-        .nav-badge {
-            background: #FFD700;
-            color: #000;
-            padding: 0.25rem 0.5rem;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            margin-left: auto;
-        }
-
-        .admin-main {
-            flex: 1;
-            padding: 2rem;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
-        }
-
-        /* Enhanced Stats Grid */
-        .stats-grid-modern {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .stat-card-modern {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(184, 134, 11, 0.05));
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 16px;
-            padding: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .stat-card-modern:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
-            border-color: rgba(255, 215, 0, 0.5);
-        }
-
-        .stat-icon-modern {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #FFD700, #B8860B);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            color: #000;
-        }
-
-        .stat-info-modern h3 {
-            margin: 0;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #FFD700;
-            line-height: 1;
-        }
-
-        .stat-info-modern p {
-            margin: 0.5rem 0 0 0;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-        }
-
-        .modern-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .modern-card:hover {
-            border-color: rgba(255, 215, 0, 0.4);
-        }
-
-        .search-bar {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .search-bar input {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-        }
-
-        .search-bar input:focus {
-            outline: none;
-            border-color: #FFD700;
-        }
-
-        @media (max-width: 768px) {
-            .admin-container {
-                flex-direction: column;
-            }
-            
-            .admin-sidebar {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-            }
-            
-            .sidebar-nav {
-                flex-direction: row;
-                overflow-x: auto;
-                padding: 1rem;
-            }
-            
-            .nav-btn {
-                white-space: nowrap;
-                min-width: 140px;
-            }
-            
-            .stats-grid-modern {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- Admin Login -->
@@ -240,12 +16,12 @@
             <form id="adminLoginForm">
                 <div class="form-group">
                     <label>Admin Email</label>
-                    <input type="email" id="adminEmail" required>
+                    <input type="email" id="adminEmail" required placeholder="admin@campuseats.com">
                 </div>
                 <div class="form-group">
                     <label>Password</label>
                     <div class="password-container">
-                        <input type="password" id="adminPassword" required>
+                        <input type="password" id="adminPassword" required placeholder="Enter admin password">
                         <button type="button" class="password-toggle" onclick="togglePassword('adminPassword')">
                             <i class="fas fa-eye"></i>
                         </button>
@@ -258,28 +34,22 @@
                     <i class="fas fa-arrow-left"></i> Back to Main Site
                 </a>
             </div>
-            <div style="text-align: center; margin-top: 15px; color: #FFD700; font-size: 0.9rem;">
-                <p>Demo Credentials:<br>Email: admin@campuseats.com<br>Password: admin123</p>
-            </div>
         </div>
     </div>
 
     <!-- Admin Dashboard -->
-    <div id="adminDashboard" class="admin-dashboard hidden">
-        <!-- Enhanced Header -->
+    <div id="adminDashboard" class="hidden">
+        <!-- Header -->
         <header class="admin-header">
             <div class="admin-nav">
                 <div class="admin-brand">
-                    <a href="../index.html" style="text-decoration: none;">
-                        <h1><i class="fas fa-shield-alt"></i> CampusEats Admin</h1>
+                    <a href="../index.html" class="back-button">
+                        <i class="fas fa-home"></i>
+                        <span>CampusEats Admin</span>
                     </a>
                 </div>
                 <div class="admin-actions">
-                    <span id="adminWelcome" style="color: #FFD700;">Welcome, Admin!</span>
-                    <div class="notification-bell" onclick="viewAdminNotifications()">
-                        <i class="fas fa-bell" style="color: #FFD700;"></i>
-                        <span class="notification-badge" id="adminNotificationCount">0</span>
-                    </div>
+                    <span id="adminWelcome" class="admin-welcome">Welcome, Admin!</span>
                     <button id="adminLogout" class="btn btn-outline">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
@@ -288,36 +58,34 @@
         </header>
 
         <div class="admin-container">
-            <!-- Enhanced Sidebar -->
+            <!-- Sidebar -->
             <aside class="admin-sidebar">
                 <nav class="sidebar-nav">
                     <button class="nav-btn active" data-tab="dashboard">
                         <i class="fas fa-tachometer-alt"></i> Dashboard
                     </button>
-                    <button class="nav-btn" data-tab="admin-vendors">
-                        <i class="fas fa-store"></i> Vendors
-                        <span class="nav-badge" id="vendorsCount">0</span>
+                    <button class="nav-btn" data-tab="vendors" onclick="location.href='admin-vendors.html'">
+                        <i class="fas fa-store"></i> Vendor Management
+                        <span class="nav-badge" id="pendingVendorsCount">0</span>
                     </button>
-                    <button class="nav-btn" data-tab="admin-orders">
-                        <i class="fas fa-shopping-cart"></i> Orders
-                        <span class="nav-badge" id="ordersCount">0</span>
+                    <button class="nav-btn" data-tab="orders" onclick="location.href='admin-orders.html'">
+                        <i class="fas fa-shopping-cart"></i> Order Management
+                        <span class="nav-badge" id="pendingOrdersCount">0</span>
                     </button>
-                    <button class="nav-btn" data-tab="admin-messages">
-                        <i class="fas fa-comments"></i> Messages
-                        <span class="nav-badge" id="messagesCount">0</span>
-                    </button>
-                    <button class="nav-btn" data-tab="admin-reports">
-                        <i class="fas fa-flag"></i> Reports
+                    <button class="nav-btn" data-tab="messages" onclick="location.href='admin-messages.html'">
+                        <i class="fas fa-comments"></i> Message Monitoring
                         <span class="nav-badge" id="reportsCount">0</span>
                     </button>
-                    <button class="nav-btn" data-tab="admin-products">
-                        <i class="fas fa-box"></i> Products
+                    <button class="nav-btn" data-tab="reports" onclick="location.href='admin-reports.html'">
+                        <i class="fas fa-flag"></i> Reports & Complaints
+                        <span class="nav-badge" id="unresolvedReports">0</span>
                     </button>
-                    <button class="nav-btn" data-tab="admin-photos">
+                    <button class="nav-btn" data-tab="products" onclick="location.href='admin-products.html'">
+                        <i class="fas fa-box"></i> Product Moderation
+                    </button>
+                    <button class="nav-btn" data-tab="photos" onclick="location.href='admin-photos.html'">
                         <i class="fas fa-camera"></i> Photo Moderation
-                    </button>
-                    <button class="nav-btn" data-tab="admin-reviews">
-                        <i class="fas fa-star"></i> Review Moderation
+                        <span class="nav-badge" id="pendingPhotos">0</span>
                     </button>
                 </nav>
             </aside>
@@ -326,140 +94,74 @@
             <main class="admin-main">
                 <!-- Dashboard Tab -->
                 <div id="dashboard" class="tab-content active">
-                    <div class="modern-card">
-                        <h2 style="margin: 0 0 1rem 0; color: #FFD700;">Platform Overview</h2>
-                        <p style="color: rgba(255,255,255,0.7); margin: 0;">Monitor and manage the CampusEats platform</p>
-                    </div>
+                    <h2>Platform Overview</h2>
+                    <p>Monitor and manage the CampusEats platform</p>
 
-                    <!-- Search Bar -->
-                    <div class="search-bar">
-                        <input type="text" id="adminSearch" placeholder="Search orders, vendors, students...">
-                        <button class="btn" onclick="performAdminSearch()">
-                            <i class="fas fa-search"></i> Search
-                        </button>
-                    </div>
-
-                    <div class="stats-grid-modern">
-                        <div class="stat-card-modern" onclick="switchToTab('admin-vendors')">
-                            <div class="stat-icon-modern">
+                    <div class="stats-grid">
+                        <div class="stat-card" onclick="location.href='admin-vendors.html'">
+                            <div class="stat-icon">
                                 <i class="fas fa-store"></i>
                             </div>
-                            <div class="stat-info-modern">
+                            <div class="stat-info">
                                 <h3 id="totalVendors">0</h3>
                                 <p>Total Vendors</p>
                             </div>
                         </div>
-                        <div class="stat-card-modern" onclick="switchToTab('admin-vendors')">
-                            <div class="stat-icon-modern">
+                        <div class="stat-card" onclick="location.href='admin-vendors.html'">
+                            <div class="stat-icon">
                                 <i class="fas fa-clock"></i>
                             </div>
-                            <div class="stat-info-modern">
+                            <div class="stat-info">
                                 <h3 id="pendingVendors">0</h3>
-                                <p>Pending Requests</p>
+                                <p>Pending Approvals</p>
                             </div>
                         </div>
-                        <div class="stat-card-modern" onclick="switchToTab('admin-orders')">
-                            <div class="stat-icon-modern">
-                                <i class="fas fa-money-bill-wave"></i>
-                            </div>
-                            <div class="stat-info-modern">
-                                <h3 id="totalRevenue">₦0</h3>
-                                <p>Platform Revenue</p>
-                            </div>
-                        </div>
-                        <div class="stat-card-modern" onclick="switchToTab('admin-reports')">
-                            <div class="stat-icon-modern">
-                                <i class="fas fa-flag"></i>
-                            </div>
-                            <div class="stat-info-modern">
-                                <h3 id="totalReports">0</h3>
-                                <p>Active Reports</p>
-                            </div>
-                        </div>
-                        <div class="stat-card-modern" onclick="switchToTab('admin-messages')">
-                            <div class="stat-icon-modern">
-                                <i class="fas fa-comments"></i>
-                            </div>
-                            <div class="stat-info-modern">
-                                <h3 id="totalMessages">0</h3>
-                                <p>Today's Messages</p>
-                            </div>
-                        </div>
-                        <div class="stat-card-modern" onclick="switchToTab('admin-orders')">
-                            <div class="stat-icon-modern">
+                        <div class="stat-card" onclick="location.href='admin-orders.html'">
+                            <div class="stat-icon">
                                 <i class="fas fa-shopping-cart"></i>
                             </div>
-                            <div class="stat-info-modern">
+                            <div class="stat-info">
                                 <h3 id="totalOrders">0</h3>
-                                <p>Today's Orders</p>
+                                <p>Total Orders</p>
+                            </div>
+                        </div>
+                        <div class="stat-card" onclick="location.href='admin-reports.html'">
+                            <div class="stat-icon">
+                                <i class="fas fa-flag"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalReports">0</h3>
+                                <p>Active Reports</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Quick Actions -->
-                    <div class="modern-card">
-                        <h3 style="margin: 0 0 1rem 0; color: #FFD700;">Quick Actions</h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                            <button class="btn" onclick="switchToTab('admin-vendors')">
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <div class="action-buttons">
+                            <button class="btn" onclick="location.href='admin-vendors.html'">
                                 <i class="fas fa-users"></i>
                                 Manage Vendors
                             </button>
-                            <button class="btn" onclick="switchToTab('admin-reports')">
+                            <button class="btn" onclick="location.href='admin-reports.html'">
                                 <i class="fas fa-flag"></i>
-                                Handle Reports
+                                Review Reports
                             </button>
-                            <button class="btn" onclick="switchToTab('admin-messages')">
-                                <i class="fas fa-comments"></i>
-                                Monitor Messages
-                            </button>
-                            <button class="btn btn-outline" onclick="viewPlatformAnalytics()">
-                                <i class="fas fa-chart-bar"></i>
-                                View Analytics
+                            <button class="btn" onclick="location.href='admin-products.html'">
+                                <i class="fas fa-box"></i>
+                                Moderate Products
                             </button>
                         </div>
                     </div>
 
                     <!-- Recent Activity -->
                     <div class="modern-card">
-                        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1.5rem;">
-                            <h3 style="margin: 0; color: #FFD700;">Recent Activity</h3>
-                            <button class="btn btn-outline btn-sm" onclick="refreshAdminData()">
-                                <i class="fas fa-sync-alt"></i> Refresh
-                            </button>
-                        </div>
-                        <div id="recentAdminActivity">
-                            <!-- Recent activity will be loaded here -->
+                        <h3>Recent Activity</h3>
+                        <div id="recentActivity">
+                            <!-- Activity will be loaded here -->
                         </div>
                     </div>
-                </div>
-
-                <!-- Other tabs will be implemented in separate files -->
-                <div id="admin-vendors" class="tab-content">
-                    <!-- Vendor management -->
-                </div>
-
-                <div id="admin-orders" class="tab-content">
-                    <!-- Order oversight -->
-                </div>
-
-                <div id="admin-messages" class="tab-content">
-                    <!-- Message monitoring -->
-                </div>
-
-                <div id="admin-reports" class="tab-content">
-                    <!-- Reports management -->
-                </div>
-
-                <div id="admin-products" class="tab-content">
-                    <!-- Products management -->
-                </div>
-
-                <div id="admin-photos" class="tab-content">
-                    <!-- Photo moderation -->
-                </div>
-
-                <div id="admin-reviews" class="tab-content">
-                    <!-- Review moderation -->
                 </div>
             </main>
         </div>

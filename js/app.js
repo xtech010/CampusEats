@@ -114,95 +114,132 @@ class CampusEatsApp {
             
             if (this.userType === 'student') {
                 userLinks = `
-                    <li class="user-menu-container">
-                        <a href="#" class="nav-link user-toggle">
-                            <i class="fas fa-user-circle"></i> ${this.currentUser.name}
+                    <div class="user-menu-container">
+                        <button class="user-menu-btn" onclick="toggleUserMenu()">
+                            <div class="user-avatar">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="user-info">
+                                <span class="user-name">${this.currentUser.name}</span>
+                                <span class="user-role">Student</span>
+                            </div>
                             <i class="fas fa-chevron-down"></i>
-                        </a>
-                        <div class="user-dropdown hidden">
-                            <a href="student.html" class="dropdown-item">
-                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </button>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="students/student.html" class="dropdown-item">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Dashboard
                             </a>
-                            <a href="student-cart.html" class="dropdown-item">
-                                <i class="fas fa-shopping-cart"></i> Cart
+                            <a href="students/student-cart.html" class="dropdown-item">
+                                <i class="fas fa-shopping-cart"></i>
+                                Cart
                             </a>
-                            <a href="student-orders.html" class="dropdown-item">
-                                <i class="fas fa-history"></i> Orders
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="vendor-dashboard.html" class="dropdown-item">
-                                <i class="fas fa-store"></i> Vendor Portal
-                            </a>
-                            <a href="admin.html" class="dropdown-item">
-                                <i class="fas fa-shield-alt"></i> Admin Portal
+                            <a href="students/student-orders.html" class="dropdown-item">
+                                <i class="fas fa-history"></i>
+                                Orders
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item" onclick="logout()">
-                                <i class="fas fa-sign-out-alt"></i> Logout
+                            <a href="vendors/vendor-dashboard.html" class="dropdown-item">
+                                <i class="fas fa-store"></i>
+                                Vendor Portal
                             </a>
+                            <a href="admin/admin.html" class="dropdown-item">
+                                <i class="fas fa-shield-alt"></i>
+                                Admin Portal
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </button>
                         </div>
-                    </li>
+                    </div>
                 `;
             } else if (this.userType === 'vendor') {
                 userLinks = `
-                    <li class="user-menu-container">
-                        <a href="#" class="nav-link user-toggle">
-                            <i class="fas fa-store"></i> ${this.currentUser.businessName}
+                    <div class="user-menu-container">
+                        <button class="user-menu-btn" onclick="toggleUserMenu()">
+                            <div class="user-avatar">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div class="user-info">
+                                <span class="user-name">${this.currentUser.businessName}</span>
+                                <span class="user-role">Vendor</span>
+                            </div>
                             <i class="fas fa-chevron-down"></i>
-                        </a>
-                        <div class="user-dropdown hidden">
-                            <a href="vendor-dashboard.html" class="dropdown-item">
-                                <i class="fas fa-tachometer-alt"></i> Vendor Dashboard
+                        </button>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="vendors/vendor-dashboard.html" class="dropdown-item">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Vendor Dashboard
                             </a>
-                            <a href="student-cart.html" class="dropdown-item">
-                                <i class="fas fa-shopping-cart"></i> Cart
+                            <a href="vendors/vendor-orders.html" class="dropdown-item">
+                                <i class="fas fa-shopping-cart"></i>
+                                Orders
+                            </a>
+                            <a href="vendors/vendor-products.html" class="dropdown-item">
+                                <i class="fas fa-box"></i>
+                                Products
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="student.html" class="dropdown-item">
-                                <i class="fas fa-user-graduate"></i> Student Portal
+                            <a href="students/student.html" class="dropdown-item">
+                                <i class="fas fa-user-graduate"></i>
+                                Student Portal
                             </a>
-                            <a href="admin.html" class="dropdown-item">
-                                <i class="fas fa-shield-alt"></i> Admin Portal
+                            <a href="admin/admin.html" class="dropdown-item">
+                                <i class="fas fa-shield-alt"></i>
+                                Admin Portal
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item" onclick="logout()">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </a>
+                            <button class="dropdown-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </button>
                         </div>
-                    </li>
+                    </div>
                 `;
             } else if (this.userType === 'admin') {
                 userLinks = `
-                    <li class="user-menu-container">
-                        <a href="#" class="nav-link user-toggle">
-                            <i class="fas fa-shield-alt"></i> Admin
+                    <div class="user-menu-container">
+                        <button class="user-menu-btn" onclick="toggleUserMenu()">
+                            <div class="user-avatar">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="user-info">
+                                <span class="user-name">Admin</span>
+                                <span class="user-role">Administrator</span>
+                            </div>
                             <i class="fas fa-chevron-down"></i>
-                        </a>
-                        <div class="user-dropdown hidden">
-                            <a href="admin.html" class="dropdown-item">
-                                <i class="fas fa-tachometer-alt"></i> Admin Dashboard
+                        </button>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="admin/admin.html" class="dropdown-item">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Admin Dashboard
                             </a>
-                            <a href="student-cart.html" class="dropdown-item">
-                                <i class="fas fa-shopping-cart"></i> Cart
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="student.html" class="dropdown-item">
-                                <i class="fas fa-user-graduate"></i> Student Portal
-                            </a>
-                            <a href="vendor-dashboard.html" class="dropdown-item">
-                                <i class="fas fa-store"></i> Vendor Portal
+                            <a href="students/student-cart.html" class="dropdown-item">
+                                <i class="fas fa-shopping-cart"></i>
+                                Cart
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item" onclick="logout()">
-                                <i class="fas fa-sign-out-alt"></i> Logout
+                            <a href="students/student.html" class="dropdown-item">
+                                <i class="fas fa-user-graduate"></i>
+                                Student Portal
                             </a>
+                            <a href="vendors/vendor-dashboard.html" class="dropdown-item">
+                                <i class="fas fa-store"></i>
+                                Vendor Portal
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </button>
                         </div>
-                    </li>
+                    </div>
                 `;
             }
             
             authSection.innerHTML = userLinks;
-            this.setupUserDropdown();
             
         } else {
             authSection.innerHTML = `
@@ -210,7 +247,7 @@ class CampusEatsApp {
                     <button class="btn-auth btn-login" onclick="showLoginOptions()">
                         <i class="fas fa-sign-in-alt"></i> Login
                     </button>
-                    <a href="vendor-dashboard.html" class="btn-auth btn-vendor">
+                    <a href="vendors/vendor-dashboard.html" class="btn-auth btn-vendor">
                         <i class="fas fa-store"></i> Sell on Campus
                     </a>
                 </div>
@@ -221,31 +258,8 @@ class CampusEatsApp {
         console.log('Auth section updated');
     }
 
-    setupUserDropdown() {
-        const userToggles = document.querySelectorAll('.user-toggle');
-        userToggles.forEach(toggle => {
-            toggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                const dropdown = toggle.nextElementSibling;
-                dropdown.classList.toggle('hidden');
-            });
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.user-menu-container')) {
-                document.querySelectorAll('.user-dropdown').forEach(dropdown => {
-                    dropdown.classList.add('hidden');
-                });
-            }
-        });
-        
-        console.log('User dropdown setup complete');
-    }
-
     handleStudentLogin(e) {
         e.preventDefault();
-        console.log('Student login form submitted');
         
         const email = document.getElementById('studentEmail').value;
         const password = document.getElementById('studentPassword').value;
@@ -255,7 +269,6 @@ class CampusEatsApp {
             return;
         }
 
-        // Check students
         const students = JSON.parse(localStorage.getItem('student_accounts') || '[]');
         const student = students.find(s => s.email === email && s.password === password);
 
@@ -266,10 +279,9 @@ class CampusEatsApp {
             this.updateAuthSection();
             this.closeModal('loginModal');
             this.showNotification('Login successful! Welcome back!', 'success');
-            this.loadCampusMarket();
             
-            // Clear form
-            document.getElementById('studentLoginForm').reset();
+            // Redirect to student dashboard
+            window.location.href = 'students/student.html';
         } else {
             this.showNotification('Invalid email or password. Please try again.', 'error');
         }
@@ -277,7 +289,6 @@ class CampusEatsApp {
 
     handleVendorLogin(e) {
         e.preventDefault();
-        console.log('Vendor login form submitted');
         
         const email = document.getElementById('vendorEmail').value;
         const password = document.getElementById('vendorPassword').value;
@@ -287,7 +298,6 @@ class CampusEatsApp {
             return;
         }
 
-        // Check vendors
         const vendors = JSON.parse(localStorage.getItem('vendor_accounts') || '[]');
         const vendor = vendors.find(v => v.email === email && v.password === password);
 
@@ -298,10 +308,9 @@ class CampusEatsApp {
             this.updateAuthSection();
             this.closeModal('loginModal');
             this.showNotification('Vendor login successful!', 'success');
-            this.loadCampusMarket();
             
-            // Clear form
-            document.getElementById('vendorLoginForm').reset();
+            // Redirect to vendor dashboard
+            window.location.href = 'vendors/vendor-dashboard.html';
         } else {
             this.showNotification('Invalid vendor email or password.', 'error');
         }
@@ -684,6 +693,33 @@ function toggleMobileMenu() {
     }
 }
 
+// Toggle user dropdown menu
+function toggleUserMenu() {
+    const dropdown = document.getElementById('userDropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('show');
+    }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('userDropdown');
+    const userMenuBtn = document.querySelector('.user-menu-btn');
+    
+    if (dropdown && userMenuBtn) {
+        if (!userMenuBtn.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.remove('show');
+        }
+    }
+});
+
+function logout() {
+    localStorage.removeItem('currentStudent');
+    localStorage.removeItem('currentVendor');
+    localStorage.removeItem('adminLoggedIn');
+    window.location.reload();
+}
+
 function viewVendorProducts(vendorId) {
     const products = JSON.parse(localStorage.getItem('vendor_products') || '[]');
     const vendorProducts = products.filter(p => p.vendorId == vendorId && p.isAvailable);
@@ -801,13 +837,6 @@ function subscribeKanoUpdates() {
         window.app.showNotification('🎉 Thanks! We\'ll notify you when Kano delivery launches!', 'success');
         document.getElementById('kanoNotifyEmail').value = '';
     }
-}
-
-function logout() {
-    localStorage.removeItem('currentStudent');
-    localStorage.removeItem('currentVendor');
-    localStorage.removeItem('adminLoggedIn');
-    window.location.reload();
 }
 
 // Initialize sample data if none exists

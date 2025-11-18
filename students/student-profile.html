@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings - CampusEats</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Enhanced Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-container">
+                <a href="../index.html" class="logo">
+                    <i class="fas fa-utensils"></i> Campus<span>Eats</span>
+                </a>
+                
+                <nav>
+                    <ul style="display: flex; align-items: center; gap: 0.5rem;">
+                        <li>
+                            <a href="student.html" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="student-orders.html" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;">
+                                <i class="fas fa-shopping-bag"></i>
+                                My Orders
+                            </a>
+                        </li>
+                        <li>
+                            <a href="student-profile.html" class="nav-link active" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: rgba(255,215,0,0.15); border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                                <i class="fas fa-user-cog"></i>
+                                Profile
+                            </a>
+                        </li>
+                        
+                        <!-- User Menu -->
+                        <li style="position: relative; margin-left: 1rem;">
+                            <button id="userMenuBtn" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; background: rgba(255,215,0,0.1); border-radius: 10px; border: 1px solid rgba(255,215,0,0.3); transition: all 0.3s ease; cursor: pointer; border: none; color: white;">
+                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #FFD700, #B8860B); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-user" style="color: #000; font-size: 1rem;"></i>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                                    <span style="font-weight: 600; color: #FFD700; font-size: 0.9rem;" id="userName">Student</span>
+                                    <small style="color: rgba(255,255,255,0.7); font-size: 0.7rem;">Student Account</small>
+                                </div>
+                                <i class="fas fa-chevron-down" style="color: #FFD700; font-size: 0.8rem; transition: transform 0.3s ease;"></i>
+                            </button>
+                            
+                            <!-- User Dropdown Menu -->
+                            <div class="user-dropdown hidden" id="userMenu" style="position: absolute; top: 100%; right: 0; background: rgba(0,0,0,0.95); border: 1px solid rgba(255,215,0,0.3); border-radius: 12px; padding: 1rem 0; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1000; backdrop-filter: blur(10px);">
+                                <button onclick="location.href='student.html'" style="display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.75rem 1.5rem; background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">
+                                    <i class="fas fa-tachometer-alt" style="width: 16px; text-align: center;"></i>
+                                    Dashboard
+                                </button>
+                                <button onclick="location.href='student-reviews.html'" style="display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.75rem 1.5rem; background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">
+                                    <i class="fas fa-star" style="width: 16px; text-align: center;"></i>
+                                    My Reviews
+                                </button>
+                                <div style="height: 1px; background: rgba(255,215,0,0.2); margin: 0.25rem 0;"></div>
+                                <button onclick="studentLogout()" style="display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.75rem 1.5rem; background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">
+                                    <i class="fas fa-sign-out-alt" style="width: 16px; text-align: center;"></i>
+                                    Logout
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="mobile-menu" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Content -->
+    <section class="section">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1 class="section-title">Profile Settings</h1>
+            </div>
+
+            <div class="profile-container">
+                <!-- Profile Overview -->
+                <div class="modern-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar-section">
+                            <div class="profile-avatar" id="profileAvatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="profile-avatar-actions">
+                                <button class="btn btn-sm btn-outline" onclick="document.getElementById('avatarUpload').click()">
+                                    <i class="fas fa-camera"></i> Change Photo
+                                </button>
+                                <input type="file" id="avatarUpload" accept="image/*" style="display: none;" onchange="handleAvatarUpload(this)">
+                            </div>
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="profileName">Student Name</h2>
+                            <p id="profileEmail">student@example.com</p>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <strong id="totalOrders">0</strong>
+                                    <span>Total Orders</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <strong id="totalReviews">0</strong>
+                                    <span>Reviews</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <strong id="memberSince">2024</strong>
+                                    <span>Member Since</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-content">
+                    <!-- Personal Information -->
+                    <div class="modern-card">
+                        <h3>Personal Information</h3>
+                        <form id="personalInfoForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" id="fullName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Student ID</label>
+                                    <input type="text" id="studentId">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <input type="email" id="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="tel" id="phone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Delivery Address (Hostel/Room)</label>
+                                <input type="text" id="deliveryAddress" placeholder="e.g., Hostel A, Room 101">
+                            </div>
+                            <div class="action-buttons">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Security Settings -->
+                    <div class="modern-card">
+                        <h3>Security Settings</h3>
+                        <form id="securityForm">
+                            <div class="form-group">
+                                <label>Current Password</label>
+                                <input type="password" id="currentPassword">
+                            </div>
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input type="password" id="newPassword">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Password</label>
+                                <input type="password" id="confirmPassword">
+                            </div>
+                            <div class="action-buttons">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-lock"></i> Update Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Preferences -->
+                    <div class="modern-card">
+                        <h3>Preferences</h3>
+                        <form id="preferencesForm">
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    Email Notifications
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="smsNotifications">
+                                    SMS Notifications
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="promotionalEmails">
+                                    Promotional Emails
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>Preferred Categories</label>
+                                <div class="categories-grid">
+                                    <label class="category-checkbox">
+                                        <input type="checkbox" name="preferredCategories" value="food">
+                                        <span>🍕 Food</span>
+                                    </label>
+                                    <label class="category-checkbox">
+                                        <input type="checkbox" name="preferredCategories" value="drinks">
+                                        <span>🥤 Drinks</span>
+                                    </label>
+                                    <label class="category-checkbox">
+                                        <input type="checkbox" name="preferredCategories" value="snacks">
+                                        <span>🍿 Snacks</span>
+                                    </label>
+                                    <label class="category-checkbox">
+                                        <input type="checkbox" name="preferredCategories" value="desserts">
+                                        <span>🍰 Desserts</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Save Preferences
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/app.js"></script>
+    <script src="js/student-profile.js"></script>
+</body>
+</html>

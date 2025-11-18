@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions - CampusEats Vendor</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="vendor-dashboard">
+    <div id="vendorDashboard">
+        <header class="vendor-header">
+            <div class="vendor-nav">
+                <div class="vendor-brand">
+                    <a href="vendor-dashboard.html" class="back-button">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Transaction History</span>
+                    </a>
+                </div>
+                <div class="vendor-actions">
+                    <span id="vendorWelcome" class="vendor-welcome"></span>
+                    <button class="btn btn-outline" onclick="vendorApp.handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="vendor-container">
+            <main class="vendor-main">
+                <div class="modern-card">
+                    <h2>Transaction History</h2>
+                    <p>Track your earnings and platform fees</p>
+                </div>
+
+                <!-- Revenue Summary -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalRevenue">₦0</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="platformFees">₦0</h3>
+                            <p>Platform Fees</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="netEarnings">₦0</h3>
+                            <p>Net Earnings</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="thisMonth">₦0</h3>
+                            <p>This Month</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="modern-card">
+                    <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                        <select id="timeFilter" onchange="vendorTransactionsManager.filterTransactions()">
+                            <option value="all">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="last-month">Last Month</option>
+                        </select>
+                        <select id="typeFilter" onchange="vendorTransactionsManager.filterTransactions()">
+                            <option value="all">All Types</option>
+                            <option value="order">Order Payments</option>
+                            <option value="refund">Refunds</option>
+                            <option value="fee">Platform Fees</option>
+                        </select>
+                        <button class="btn btn-outline" onclick="vendorTransactionsManager.exportTransactions()">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Transactions List -->
+                <div class="modern-card">
+                    <h3>Transaction Details</h3>
+                    <div id="transactionsList">
+                        <!-- Transactions will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Payout Information -->
+                <div class="modern-card">
+                    <h3>Payout Information</h3>
+                    <div class="payout-info">
+                        <div class="payout-item">
+                            <div class="payout-label">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>Next Payout Date</span>
+                            </div>
+                            <div class="payout-value" id="nextPayoutDate">--</div>
+                        </div>
+                        <div class="payout-item">
+                            <div class="payout-label">
+                                <i class="fas fa-money-check"></i>
+                                <span>Available for Payout</span>
+                            </div>
+                            <div class="payout-value" id="availablePayout">₦0</div>
+                        </div>
+                        <div class="payout-item">
+                            <div class="payout-label">
+                                <i class="fas fa-university"></i>
+                                <span>Bank Account</span>
+                            </div>
+                            <div class="payout-value" id="bankAccount">Not set up</div>
+                        </div>
+                    </div>
+                    <div class="action-buttons" style="margin-top: 1.5rem;">
+                        <button class="btn btn-primary" onclick="vendorTransactionsManager.setupPayout()">
+                            <i class="fas fa-plus"></i> Setup Payout Method
+                        </button>
+                        <button class="btn btn-outline" onclick="vendorTransactionsManager.requestPayout()">
+                            <i class="fas fa-hand-holding-usd"></i> Request Payout
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Payout Setup Modal -->
+    <div id="payoutSetupModal" class="modal hidden">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3>Setup Payout Method</h3>
+                <button class="close" onclick="closeModal('payoutSetupModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="payoutSetupContent">
+                    <form id="payoutSetupForm">
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            <input type="text" id="bankName" required placeholder="Enter bank name">
+                        </div>
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            <input type="text" id="accountNumber" required placeholder="Enter account number">
+                        </div>
+                        <div class="form-group">
+                            <label>Account Name</label>
+                            <input type="text" id="accountName" required placeholder="Enter account name">
+                        </div>
+                        <div class="form-group">
+                            <label>Account Type</label>
+                            <select id="accountType" required>
+                                <option value="">Select account type</option>
+                                <option value="savings">Savings</option>
+                                <option value="current">Current</option>
+                            </select>
+                        </div>
+                        <div class="action-buttons">
+                            <button type="submit" class="btn btn-primary">Save Bank Details</button>
+                            <button type="button" class="btn btn-outline" onclick="closeModal('payoutSetupModal')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Details Modal -->
+    <div id="transactionDetailsModal" class="modal hidden">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Transaction Details</h3>
+                <button class="close" onclick="closeModal('transactionDetailsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="transactionDetailsContent">
+                    <!-- Transaction details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="js/vendor-app.js"></script>
+    <script src="js/vendor-transactions.js"></script>
+</body>
+</html>
